@@ -1,14 +1,20 @@
 #! /bin/bash -x
 
+# CONSTANTS FOR THE PROGRAM
 isPartTime=1;
 isFullTime=2;
-totalSalary=0;
+maxHoursInMonth=10;
 empRatePerHour=20;
 numWorkingDays=20;
-#randomCheck=$(( RANDOM%3 ));
 
-for (( days=1; days<=$numWorkingDays; days++ ))
+# VARIABLES
+totalEmpHours=0;
+totalWorkingDays=0;
+
+while [[ $totalEmpHours -lt $maxHoursInMonth &&
+			$totalWorkingDays -lt $numWorkingDays ]]
 do
+	(( totalWorkingDays++ ))
 	randomCheck=$(( RANDOM%3 ));
 			case $randomCheck in
 					$isFullTime)
@@ -22,8 +28,8 @@ do
 							;;
 			esac
 
-salary=$(( $empHours*$empRatePerHour ));
-totalSalary=$(( $totalSalary+$salary ));
-echo salary is $salary;
+totalEmpHours=$(( $totalEmpHours+$empHours ))
 
 done
+
+totalSalary=$(( $totalEmpHours*$empRatePerHour ))
