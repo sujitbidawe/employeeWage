@@ -1,4 +1,4 @@
-#! /bin/bash -x
+#! /bin/bash 
 
 # CONSTANTS FOR THE PROGRAM
 isPartTime=1;
@@ -11,25 +11,30 @@ numWorkingDays=20;
 totalEmpHours=0;
 totalWorkingDays=0;
 
+function getWorkingHours() {
+	case $1 in
+               $isFullTime)
+                     empHours=8
+                     ;;
+               $isPartTime)
+                     empHours=4
+                     ;;
+               *)
+                     empHours=0
+                     ;;
+         esac
+			echo $empHours
+}
+
 while [[ $totalEmpHours -lt $maxHoursInMonth &&
 			$totalWorkingDays -lt $numWorkingDays ]]
 do
-	(( totalWorkingDays++ ))
-	randomCheck=$(( RANDOM%3 ));
-			case $randomCheck in
-					$isFullTime)
-							empHours=8
-							;;
-					$isPartTime)
-							empHours=4
-							;;
-					*)
-							empHours=0
-							;;
-			esac
 
-totalEmpHours=$(( $totalEmpHours+$empHours ))
+	(( totalWorkingDays++ ))
+	empHours="$( getWorkingHours $((RANDOM%3)) )"
+	totalEmpHours=$(( $totalEmpHours+$empHours ))
 
 done
 
 totalSalary=$(( $totalEmpHours*$empRatePerHour ))
+echo total salary is $totalSalary
