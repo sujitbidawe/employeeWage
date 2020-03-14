@@ -1,4 +1,4 @@
-#! /bin/bash 
+#! /bin/bash
 
 # CONSTANTS FOR THE PROGRAM
 isPartTime=1;
@@ -26,6 +26,12 @@ function getWorkingHours() {
 			echo $empHours
 }
 
+function calcDailyWage() {
+	local empHours=$1
+	wage=$(($empHours*$empRatePerHour))
+	echo $wage
+}
+
 while [[ $totalEmpHours -lt $maxHoursInMonth &&
 			$totalWorkingDays -lt $numWorkingDays ]]
 do
@@ -33,8 +39,8 @@ do
 	(( totalWorkingDays++ ))
 	empHours="$( getWorkingHours $((RANDOM%3)) )"
 	totalEmpHours=$(( $totalEmpHours+$empHours ))
-
+	empDailyWage[$totalWorkingDays]="$( calcDailyWage $empHours )"
 done
 
-totalSalary=$(( $totalEmpHours*$empRatePerHour ))
-echo total salary is $totalSalary
+totalSalary="$( calcDailyWage $empRatePerHour )"
+echo "Daily wage" ${empDailyWage[@]}
