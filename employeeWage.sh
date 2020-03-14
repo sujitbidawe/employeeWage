@@ -11,6 +11,8 @@ numWorkingDays=20;
 totalEmpHours=0;
 totalWorkingDays=0;
 
+declare -A empDailyWage
+
 function getWorkingHours() {
 	case $1 in
                $isFullTime)
@@ -39,9 +41,9 @@ do
 	(( totalWorkingDays++ ))
 	empHours="$( getWorkingHours $((RANDOM%3)) )"
 	totalEmpHours=$(( $totalEmpHours+$empHours ))
-	empDailyWage[$totalWorkingDays]="$( calcDailyWage $empHours )"
+	empDailyWage["Day "$totalWorkingDays]="$( calcDailyWage $empHours )"
 done
 
 totalSalary="$( calcDailyWage $empRatePerHour )"
 echo "Daily wage" ${empDailyWage[@]}
-echo "All Keys" ${!empDailyWage[@]}
+echo "All Keys:" ${!empDailyWage[@]}
